@@ -16,14 +16,12 @@
     {
         item.SequenceNumber = Items.Count > 0 ? Items.Max(i => i.SequenceNumber) + 1 : 0;
         Items.Add(item);
-        NotifyChanged();
     }
 
     public void RemoveItem(TItem item)
     {
         Items.Remove(item);
         Resequence();
-        NotifyChanged();
     }
     private void Resequence()
     {
@@ -34,13 +32,6 @@
     public void Clear()
     {
         Items.Clear();
-        NotifyChanged();
-    }
-
-    private void NotifyChanged()
-    {
-        StateHasChanged();
-        ItemsChanged.InvokeAsync(Items);
     }
     
     public void MoveUp(TItem item)
@@ -49,7 +40,6 @@
         if (index <= 0) return;
         (Items[index - 1], Items[index]) = (Items[index], Items[index - 1]);
         Resequence();
-        NotifyChanged();
     }
 
     public void MoveDown(TItem item)
@@ -58,6 +48,5 @@
         if (index < 0 || index >= Items.Count - 1) return;
         (Items[index], Items[index + 1]) = (Items[index + 1], Items[index]);
         Resequence();
-        NotifyChanged();
     }
 }
