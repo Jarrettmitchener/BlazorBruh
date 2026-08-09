@@ -1,0 +1,34 @@
+@page "/FluentForm"
+@using BlazorBruh.Models
+@using Blazilla
+@rendermode InteractiveServer
+<EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
+    <FluentValidator />
+
+    <div class="mb-3">
+        <InputText @bind-Value="Model.Title" class="form-control" />
+        <ValidationMessage For="@(() => Model.Title)" />
+    </div>
+    <div class="mb-3">
+        <label>Additional Conditions?</label>
+        <InputCheckbox @bind-Value="Model.AdditionalConditions"/>
+        <ValidationMessage For="@(() => Model.AdditionalConditions)"/>
+    </div>
+    <div class="mb-3">
+        <label> Conditions</label>
+        <InputTextArea @bind-Value="Model.Conditions" class="form-control" rows="3"/>
+        <ValidationMessage For="@(() => Model.Conditions)"/>
+    </div>
+    
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    public ComplexForm Model = new();
+
+    public void HandleValidSubmit()
+    {
+        
+    }
+}

@@ -1,10 +1,14 @@
 using BlazorBruh.Components;
+using BlazorBruh.Models;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<IValidator<ComplexForm>, ComplexFormValidator>();
 
 var app = builder.Build();
 
