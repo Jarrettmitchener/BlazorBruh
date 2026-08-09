@@ -1,0 +1,24 @@
+@using BlazorBruh.Models
+
+<div class="card">
+    <div class="row">
+        <div class="col">
+            <InputText @bind-Value="@Item.Name" class="form-control"></InputText>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <InputDate @bind-Value="Item.Time"></InputDate>
+        </div>
+        <div class="col">
+            <InputNumber @bind-Value="Item.Price"></InputNumber>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Event Item { get; set; } = null!;
+    [Parameter] public EventCallback<Event> OnRemove { get; set; }
+    [Parameter] public EventCallback<Event> OnMoveUp { get; set; }
+    [Parameter] public EventCallback<Event> OnMoveDown { get; set; }
+}

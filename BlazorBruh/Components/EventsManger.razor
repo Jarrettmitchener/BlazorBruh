@@ -1,0 +1,41 @@
+@page "/events"
+@rendermode InteractiveServer
+@using BlazorBruh.Models
+<h3>EventsManger</h3>
+
+<EditForm Model="Model" OnSubmit="Submit">
+    <DynamicList @ref="_listRef" TItem="Event" ItemTemplate="RenderPerson" />
+
+    <button type="button" @onclick="() => _listRef.AddItem(new Event())">
+        Add Person
+    </button>
+    <button type="button" @onclick="() => _listRef.Clear()">
+        Clear
+    </button>
+    <button>submit</button>
+</EditForm>
+
+@code {
+    private DynamicList<Event> _listRef = null!;
+
+    public RenderFragment<Event> RenderPerson => item => @<EventRow Item="item" 
+                                                                         OnMoveUp="HandleMoveUp"
+                                                                         OnMoveDown="HandleMoveDown"
+                                                                         OnRemove="HandleRemove" />;
+    
+    private void HandleRemove(Event item) => _listRef.RemoveItem(item);
+    private void HandleMoveUp(Event item) => _listRef.MoveUp(item);
+    private void HandleMoveDown(Event item) => _listRef.MoveDown(item);
+
+    public void Submit()
+    {
+        Model.People = _listRef.Items;
+    }
+
+    public FormModel Model { get; set; } = new();
+    public class FormModel
+    {
+        public string Bruh { get; set; }
+        public List<Event> People { get; set; } = [];
+    }
+}
