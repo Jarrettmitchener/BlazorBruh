@@ -1,10 +1,16 @@
 @page "/events"
 @rendermode InteractiveServer
 @using BlazorBruh.Models
+@using Blazilla
+@using FluentValidation
 <h3>EventsManger</h3>
 
-<EditForm Model="Model" OnSubmit="Submit">
-    <DynamicList @ref="_listRef" TItem="Event" ItemTemplate="RenderPerson" />
+<EditForm Model="Model" OnValidSubmit="Submit">
+    <FluentValidator />
+    <InputText @bind-Value="Model.Timeline"></InputText>
+    <ValidationMessage For="@(() => Model.Timeline)" />
+    
+    <DynamicList @ref="_listRef" TItem="Event" Items="Model.Events" ItemTemplate="RenderPerson"/>
 
     <button type="button" @onclick="() => _listRef.AddItem(new Event())">
         Add Person
@@ -29,13 +35,25 @@
 
     public void Submit()
     {
-        Model.People = _listRef.Items;
+        Model.Events = _listRef.Items;
     }
 
     public FormModel Model { get; set; } = new();
     public class FormModel
     {
-        public string Bruh { get; set; }
-        public List<Event> People { get; set; } = [];
+        public string Timeline { get; set; } = string.Empty;
+        public List<Event> Events { get; set; } = [];
+    }
+
+    public class FormModelValidator : AbstractValidator<FormModel>
+    {
+        public FormModelValidator()
+        {
+            RuleFor(form => form.Timeline).NotEmpty().WithMessage("Timeline is required");
+            RuleForEach(form => form.Events).ChildRules(order =>
+            {
+                order.RuleFor(x => x.Name).NotEmpty();
+            });
+        }
     }
 }

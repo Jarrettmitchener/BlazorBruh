@@ -4,11 +4,13 @@
     <div class="row">
         <div class="col">
             <InputText @bind-Value="@Item.Name" class="form-control"></InputText>
+            <ValidationMessage For="@(() => Item.Name)" />
         </div>
     </div>
     <div class="row">
         <div class="col">
             <InputDate @bind-Value="Item.Time"></InputDate>
+            <ValidationMessage For="@(() => Item.Time)" />
         </div>
         <div class="col">
             <InputNumber @bind-Value="Item.Price"></InputNumber>
@@ -21,4 +23,10 @@
     [Parameter] public EventCallback<Event> OnRemove { get; set; }
     [Parameter] public EventCallback<Event> OnMoveUp { get; set; }
     [Parameter] public EventCallback<Event> OnMoveDown { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Item.Time = DateTime.Now;
+    }
+
 }

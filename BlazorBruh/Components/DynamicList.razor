@@ -9,7 +9,7 @@
 @code {
     [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; } = null!;
 
-    public List<TItem> Items { get; } = [];
+    [Parameter] public List<TItem> Items { get; set; } = [];
 
     public void AddItem(TItem item)
     {

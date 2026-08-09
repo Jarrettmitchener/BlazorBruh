@@ -9,6 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<IValidator<ComplexForm>, ComplexFormValidator>();
+builder.Services.AddSingleton<IValidator<EventsManger.FormModel>, EventsManger.FormModelValidator>();
 
 var app = builder.Build();
 
