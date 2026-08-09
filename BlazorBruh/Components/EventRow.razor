@@ -1,13 +1,13 @@
 @using BlazorBruh.Models
 
-<div class="card">
-    <div class="row">
+<div class="card m-3 p-2 bruh">
+    <div class="row m-2">
         <div class="col">
             <InputText @bind-Value="@Item.Name" class="form-control"></InputText>
             <ValidationMessage For="@(() => Item.Name)" />
         </div>
     </div>
-    <div class="row">
+    <div class="row m-2">
         <div class="col">
             <InputDate @bind-Value="Item.Time"></InputDate>
             <ValidationMessage For="@(() => Item.Time)" />
