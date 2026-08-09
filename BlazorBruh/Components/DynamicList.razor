@@ -8,7 +8,6 @@
 
 @code {
     [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; } = null!;
-    [Parameter] public EventCallback<List<TItem>> ItemsChanged { get; set; }
 
     public List<TItem> Items { get; } = [];
 
