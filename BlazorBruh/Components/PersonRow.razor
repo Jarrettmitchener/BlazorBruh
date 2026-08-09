@@ -1,0 +1,26 @@
+@using BlazorBruh.Models
+<div class="person-row border rounded-3 m-2 p-2">
+    <strong>#@Item.SequenceNumber</strong>
+    <div class="row">
+        <div class="col-3">
+            <input @bind="Item.FirstName" @bind:event="oninput" class="form-control" placeholder="First Name"/>
+        </div>
+        <div class="col-3">
+            <input @bind="Item.LastName" @bind:event="oninput" class="form-control" placeholder="Last Name"/>
+        </div>
+        <div class="col-6">
+            <input @bind="Item.Email" @bind:event="oninput" class="form-control" placeholder="Email"/>
+        </div>
+    </div>
+    <button type="button" class="btn btn-secondary btn-sm" @onclick="() => OnMoveUp.InvokeAsync(Item)">▲</button>
+    <button type="button" class="btn btn-secondary btn-sm" @onclick="() => OnMoveDown.InvokeAsync(Item)">▼</button>
+    <button type="button" class="btn btn-danger btn-sm" @onclick="() => OnRemove.InvokeAsync(Item)">Remove</button>
+    <button type="button" class="btn btn-danger btn-sm" @onclick="() => OnRemove.InvokeAsync(Item)">Remove</button>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public FlowModel Item { get; set; } = null!;
+    [Parameter] public EventCallback<FlowModel> OnRemove { get; set; }
+    [Parameter] public EventCallback<FlowModel> OnMoveUp { get; set; }
+    [Parameter] public EventCallback<FlowModel> OnMoveDown { get; set; }
+}

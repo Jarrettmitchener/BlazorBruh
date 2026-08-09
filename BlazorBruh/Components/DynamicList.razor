@@ -1,0 +1,63 @@
+@* DynamicList.razor *@
+@typeparam TItem where TItem : BlazorBruh.Models.ISequence
+
+@foreach (var item in Items.OrderBy(i => i.SequenceNumber))
+{
+    @ItemTemplate(item)
+}
+
+@code {
+    [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; } = null!;
+    [Parameter] public EventCallback<List<TItem>> ItemsChanged { get; set; }
+
+    public List<TItem> Items { get; } = [];
+
+    public void AddItem(TItem item)
+    {
+        item.SequenceNumber = Items.Count > 0 ? Items.Max(i => i.SequenceNumber) + 1 : 0;
+        Items.Add(item);
+        NotifyChanged();
+    }
+
+    public void RemoveItem(TItem item)
+    {
+        Items.Remove(item);
+        Resequence();
+        NotifyChanged();
+    }
+    private void Resequence()
+    {
+        for (int i = 0; i < Items.Count; i++)
+            Items[i].SequenceNumber = i;
+    }
+
+    public void Clear()
+    {
+        Items.Clear();
+        NotifyChanged();
+    }
+
+    private void NotifyChanged()
+    {
+        StateHasChanged();
+        ItemsChanged.InvokeAsync(Items);
+    }
+    
+    public void MoveUp(TItem item)
+    {
+        int index = Items.IndexOf(item);
+        if (index <= 0) return;
+        (Items[index - 1], Items[index]) = (Items[index], Items[index - 1]);
+        Resequence();
+        NotifyChanged();
+    }
+
+    public void MoveDown(TItem item)
+    {
+        int index = Items.IndexOf(item);
+        if (index < 0 || index >= Items.Count - 1) return;
+        (Items[index], Items[index + 1]) = (Items[index + 1], Items[index]);
+        Resequence();
+        NotifyChanged();
+    }
+}
